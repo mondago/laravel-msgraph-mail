@@ -10,21 +10,23 @@ Install the package
 composer install mondago/laravel-msgraph-mail
 ```
 
-Publish the configuration
-```bash
-php artisan vendor:publish
+Add the configuration to your mail.php config file:
+
+```php
+'mailers' => [
+    'microsoft-graph' => [
+        'transport' => 'graph-api',
+        'tenant' => env('GRAPH_API_TENANT'),
+        'client' => env('GRAPH_API_CLIENT_ID'),
+        'secret' => env('GRAPH_API_CLIENT_SECRET')
+    ]
+]
 ```
 
-Configure the environment
-
-```env
-GRAPH_API_TENANT=
-GRAPH_API_CLIENT_ID=
-GRAPH_API_CLIENT_SECRET=
-```
 
 ## Support Matrix
 
 | Our Version | Supported Laravel Version |
 |-------------|---------------------------|
-| 1.0.0       | 5.5.x                     |
+| 1.x.x       | 5.5.x                     |
+| 2.x.x       | 7.x                       |

@@ -2,17 +2,15 @@
 
 namespace Mondago\MSGraph\Mail;
 
-use Illuminate\Mail\MailServiceProvider;
+use GuzzleHttp\Client;
+use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 
-class ServiceProvider extends MailServiceProvider
+class ServiceProvider extends LaravelServiceProvider
 {
-    protected function registerSwiftTransport()
+    protected function boot()
     {
-        # https://stackoverflow.com/questions/44901912/creating-own-mail-provider-for-laravel-5-4
-        $this->app->singleton('swift.transport', function ($app) {
-            return new Manager($app);
+        $this->app->get('mail.manager')->extend('graph-api', function (array $config) {
+            return new Transport(new Client(), $config);
         });
-
-        $this->publishes([__DIR__.'/../config/graph-api.php' => config_path('graph-api.php')]);
     }
 }
