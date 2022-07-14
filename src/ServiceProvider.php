@@ -14,7 +14,7 @@ class ServiceProvider extends MailServiceProvider
             return new Manager($app);
         });
 
-        $this->publishes([__DIR__.'/config/graph-api.php' => config_path('graph-api')]);
+        $this->publishes([__DIR__.'/../config/graph-api.php' => config_path('graph-api')]);
     }
 
 }
