@@ -7,7 +7,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Barryvdh\\Debugbar\\ServiceProvider"
+                "Mondago\\MSGraph\\Mail\\ServiceProvider"
             ]
         }
     },
