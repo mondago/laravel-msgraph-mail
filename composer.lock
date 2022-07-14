@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b73af46fd20f263b55b0e408647d4230",
+    "content-hash": "f0927df795885380c1073a9946e373f4",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2293,20 +2293,21 @@
         },
         {
             "name": "symfony/css-selector",
-            "version": "v6.1.0",
+            "version": "v5.4.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/css-selector.git",
-                "reference": "05c40f02f621609404b8820ff8bc39acb46e19cf"
+                "reference": "b0a190285cd95cb019237851205b8140ef6e368e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/css-selector/zipball/05c40f02f621609404b8820ff8bc39acb46e19cf",
-                "reference": "05c40f02f621609404b8820ff8bc39acb46e19cf",
+                "url": "https://api.github.com/repos/symfony/css-selector/zipball/b0a190285cd95cb019237851205b8140ef6e368e",
+                "reference": "b0a190285cd95cb019237851205b8140ef6e368e",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1"
+                "php": ">=7.2.5",
+                "symfony/polyfill-php80": "^1.16"
             },
             "type": "library",
             "autoload": {
@@ -2338,7 +2339,7 @@
             "description": "Converts CSS selectors to XPath expressions",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/css-selector/tree/v6.1.0"
+                "source": "https://github.com/symfony/css-selector/tree/v5.4.3"
             },
             "funding": [
                 {
@@ -2354,7 +2355,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-25T11:15:52+00:00"
+            "time": "2022-01-02T09:53:40+00:00"
         },
         {
             "name": "symfony/debug",
@@ -2427,25 +2428,25 @@
         },
         {
             "name": "symfony/deprecation-contracts",
-            "version": "v3.1.1",
+            "version": "v2.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/deprecation-contracts.git",
-                "reference": "07f1b9cc2ffee6aaafcf4b710fbc38ff736bd918"
+                "reference": "e8b495ea28c1d97b5e0c121748d6f9b53d075c66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/07f1b9cc2ffee6aaafcf4b710fbc38ff736bd918",
-                "reference": "07f1b9cc2ffee6aaafcf4b710fbc38ff736bd918",
+                "url": "https://api.github.com/repos/symfony/deprecation-contracts/zipball/e8b495ea28c1d97b5e0c121748d6f9b53d075c66",
+                "reference": "e8b495ea28c1d97b5e0c121748d6f9b53d075c66",
                 "shasum": ""
             },
             "require": {
-                "php": ">=8.1"
+                "php": ">=7.1"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "3.1-dev"
+                    "dev-main": "2.5-dev"
                 },
                 "thanks": {
                     "name": "symfony/contracts",
@@ -2474,7 +2475,7 @@
             "description": "A generic function and convention to trigger deprecation notices",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/deprecation-contracts/tree/v3.1.1"
+                "source": "https://github.com/symfony/deprecation-contracts/tree/v2.5.2"
             },
             "funding": [
                 {
@@ -2490,7 +2491,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-02-25T11:15:52+00:00"
+            "time": "2022-01-02T09:53:40+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -3749,34 +3750,40 @@
         },
         {
             "name": "symfony/translation",
-            "version": "v3.4.47",
+            "version": "v4.3.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/translation.git",
-                "reference": "be83ee6c065cb32becdb306ba61160d598b1ce88"
+                "reference": "46e462be71935ae15eab531e4d491d801857f24c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/translation/zipball/be83ee6c065cb32becdb306ba61160d598b1ce88",
-                "reference": "be83ee6c065cb32becdb306ba61160d598b1ce88",
+                "url": "https://api.github.com/repos/symfony/translation/zipball/46e462be71935ae15eab531e4d491d801857f24c",
+                "reference": "46e462be71935ae15eab531e4d491d801857f24c",
                 "shasum": ""
             },
             "require": {
-                "php": "^5.5.9|>=7.0.8",
-                "symfony/polyfill-mbstring": "~1.0"
+                "php": "^7.1.3",
+                "symfony/polyfill-mbstring": "~1.0",
+                "symfony/translation-contracts": "^1.1.6"
             },
             "conflict": {
-                "symfony/config": "<2.8",
+                "symfony/config": "<3.4",
                 "symfony/dependency-injection": "<3.4",
                 "symfony/yaml": "<3.4"
             },
+            "provide": {
+                "symfony/translation-implementation": "1.0"
+            },
             "require-dev": {
                 "psr/log": "~1.0",
-                "symfony/config": "~2.8|~3.0|~4.0",
+                "symfony/config": "~3.4|~4.0",
+                "symfony/console": "~3.4|~4.0",
                 "symfony/dependency-injection": "~3.4|~4.0",
                 "symfony/finder": "~2.8|~3.0|~4.0",
                 "symfony/http-kernel": "~3.4|~4.0",
-                "symfony/intl": "^2.8.18|^3.2.5|~4.0",
+                "symfony/intl": "~3.4|~4.0",
+                "symfony/service-contracts": "^1.1.2",
                 "symfony/var-dumper": "~3.4|~4.0",
                 "symfony/yaml": "~3.4|~4.0"
             },
@@ -3786,6 +3793,11 @@
                 "symfony/yaml": ""
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.3-dev"
+                }
+            },
             "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\Translation\\": ""
@@ -3811,7 +3823,71 @@
             "description": "Symfony Translation Component",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/translation/tree/v3.4.47"
+                "source": "https://github.com/symfony/translation/tree/4.3"
+            },
+            "time": "2020-01-04T12:24:57+00:00"
+        },
+        {
+            "name": "symfony/translation-contracts",
+            "version": "v1.1.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/translation-contracts.git",
+                "reference": "7462e5c4cb8b9cd152f992e8f10963b5641921f6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/translation-contracts/zipball/7462e5c4cb8b9cd152f992e8f10963b5641921f6",
+                "reference": "7462e5c4cb8b9cd152f992e8f10963b5641921f6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.3"
+            },
+            "suggest": {
+                "symfony/translation-implementation": ""
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.1-dev"
+                },
+                "thanks": {
+                    "name": "symfony/contracts",
+                    "url": "https://github.com/symfony/contracts"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Contracts\\Translation\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Generic abstractions related to translation",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "abstractions",
+                "contracts",
+                "decoupling",
+                "interfaces",
+                "interoperability",
+                "standards"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/translation-contracts/tree/v1.1.13"
             },
             "funding": [
                 {
@@ -3827,7 +3903,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2020-10-24T10:57:07+00:00"
+            "time": "2022-06-27T13:16:42+00:00"
         },
         {
             "name": "symfony/var-dumper",
@@ -4046,7 +4122,9 @@
     "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": "^7.4"
+    },
     "platform-dev": [],
-    "plugin-api-version": "2.3.0"
+    "plugin-api-version": "2.2.0"
 }

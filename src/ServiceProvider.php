@@ -13,6 +13,8 @@ class ServiceProvider extends MailServiceProvider
         $this->app->singleton('swift.transport', function ($app) {
             return new Manager($app);
         });
+
+        $this->publishes([__DIR__.'/config/graph-api.php' => config_path('graph-api')]);
     }
 
 }
