@@ -146,10 +146,10 @@ class Transport extends LaravelTransport
 
     public function getContentType(\Swift_Mime_SimpleMessage $email): string
     {
-        if (Str::contains($email->getContentType(), ['html'])) {
+        if (Str::contains($email->getBodyContentType(), ['html'])) {
             return 'HTML';
         } else {
-            if (Str::contains($email->getContentType(), ['text', 'plain'])) {
+            if (Str::contains($email->getBodyContentType(), ['text', 'plain'])) {
                 return 'Text';
             }
         }
