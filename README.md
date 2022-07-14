@@ -22,3 +22,9 @@ GRAPH_API_TENANT=
 GRAPH_API_CLIENT_ID=
 GRAPH_API_CLIENT_SECRET=
 ```
+
+## Support Matrix
+
+| Our Version | Supported Laravel Version |
+|-------------|---------------------------|
+| 1.0.0       | 5.5.x                     |
