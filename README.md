@@ -29,4 +29,5 @@ Add the configuration to your mail.php config file:
 | Our Version | Supported Laravel Version |
 |-------------|---------------------------|
 | 1.x.x       | 5.5.x                     |
-| 2.x.x       | 7.x                       |
+| ^2.0        | 7.x                       |
+| ^2.0.2      | 8.x                       |
