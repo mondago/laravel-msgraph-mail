@@ -8,7 +8,7 @@ class Manager extends TransportManager
 {
     protected function createGraphApiDriver()
     {
-        $config = $this->app['config']->get('services.graph-api', []);
+        $config = $this->app['config']->get('graph-api', []);
 
         return new Transport(new Client(), $config);
     }
