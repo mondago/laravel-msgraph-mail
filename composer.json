@@ -1,4 +1,25 @@
 {
+    "name": "mondago/laravel-msgraph-mail",
+    "description": "A Laravel package to send emails via Microsoft's Graph API",
+    "keywords": [
+        "Mondago",
+        "Microsoft",
+        "email",
+        "mail",
+        "laravel"
+    ],
+    "homepage": "https://github.com/Mondago/laravel-msgraph-mail",
+    "license": "MIT",
+    "authors": [
+        {
+          "name": "Yanis Kross Yana",
+          "email": "yanis@mondago.com"
+        },
+        {
+          "name": "Jonny Ingall",
+          "email": "jonny@mondago.com"
+        }
+    ],
     "require": {
         "php": "^7.4",
         "guzzlehttp/guzzle": "^6.3",
