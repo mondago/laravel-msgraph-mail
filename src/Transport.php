@@ -2,71 +2,53 @@
 
 namespace Mondago\MSGraph\Mail;
 
-use GuzzleHttp\ClientInterface;
-use Illuminate\Mail\Transport\Transport as LaravelTransport;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
+use Symfony\Component\Mailer\SentMessage;
+use Symfony\Component\Mailer\Transport\AbstractTransport;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\MessageConverter;
+use Symfony\Component\Mime\Part\DataPart;
 
-class Transport extends LaravelTransport
+class Transport extends AbstractTransport
 {
     /**
      * Graph api configuration
      * @var array
      */
-    private $config;
+    private array $config;
 
-    private $http;
-
-    public function __construct(ClientInterface $client, array $config)
+    public function __construct(array $config)
     {
+        parent::__construct(null, null);
         $this->config = $config;
-        $this->http = $client;
     }
 
-    public function send(\Swift_Mime_SimpleMessage $message, &$failedRecipients = null)
+
+    protected function doSend(SentMessage $message): void
     {
-        $this->beforeSendPerformed($message);
         $token = $this->getToken();
-        $emailMessage = $this->getMessage($message);
-        $url = sprintf('https://graph.microsoft.com/v1.0/users/%s/sendMail', urlencode($emailMessage['from']['emailAddress']['address']));
-
-        try {
-            $this->http->post($url, [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Authorization' => sprintf('Bearer %s', $token),
-                ],
-                'json' => [
-                    'message' => $emailMessage,
-                ],
-            ]);
-
-            $this->sendPerformed($message);
-
-            return $this->numberOfRecipients($message);
-
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        $email = MessageConverter::toEmail($message->getOriginalMessage());
+        $url = sprintf('https://graph.microsoft.com/v1.0/users/%s/sendMail', $email->getFrom()[0]->getEncodedAddress());
+        $response = Http::withHeaders([
+            'Authorization' => sprintf('Bearer %s', $token)
+        ])->post($url, [
+            "message" => $this->getMessage($email)
+        ]);
+        $response->throw();
     }
 
     public function getToken()
     {
         $url = sprintf('https://login.microsoftonline.com/%s/oauth2/v2.0/token', $this->config['tenant']);
-        try {
-            $response = $this->http->request('POST', $url, [
-                'form_params' => [
-                    'client_id' => $this->config['client_id'],
-                    'client_secret' => $this->config['client_secret'],
-                    'scope' => 'https://graph.microsoft.com/.default',
-                    'grant_type' => 'client_credentials'
-                ],
-            ]);
-            $data = json_decode($response->getBody()->getContents());
+        $response = Http::asForm()->post($url, [
+            'client_id' => $this->config['client_id'],
+            'client_secret' => $this->config['client_secret'],
+            'scope' => 'https://graph.microsoft.com/.default',
+            'grant_type' => 'client_credentials'
+        ]);
+        $response->throw();
 
-            return $data->access_token;
-        } catch (\Exception $e) {
-            throw $e;
-        }
+        return $response['access_token'];
     }
 
     public function __toString(): string
@@ -75,84 +57,59 @@ class Transport extends LaravelTransport
     }
 
     /*
-     * @link https://docs.microsoft.com/en-us/graph/api/resources/message?view=graph-rest-1.0
+     * https://docs.microsoft.com/en-us/graph/api/resources/message?view=graph-rest-1.0
      */
-    private function getMessage(\Swift_Mime_SimpleMessage $email)
+    private function getMessage(Email $email)
     {
         return array_filter([
-            "from" => $this->getRecipientsCollection($email->getFrom())[0],
-            "sender" => $this->getRecipientsCollection($email->getFrom())[0],
+            "from" => $this->getRecipient($email->getFrom()[0]),
+            "sender" => $this->getRecipient($email->getFrom()[0]),
             "toRecipients" => $this->getRecipientsCollection($email->getTo()),
             "ccRecipients" => $this->getRecipientsCollection($email->getCc()),
             "bccRecipients" => $this->getRecipientsCollection($email->getBcc()),
             "replyTo" => $this->getRecipientsCollection($email->getReplyTo()),
             "subject" => $email->getSubject(),
             "body" => [
-                "contentType" => $this->getContentType($email),
-                "content" => $email->getBody()
+                "contentType" => $email->getTextBody() ? 'Text' : 'HTML',
+                "content" => $email->getTextBody() ?? $email->getHtmlBody(),
             ],
-            "attachments" => $this->getAttachmentsCollection($email->getChildren())
+            "attachments" => $this->getAttachmentsCollection($email->getAttachments())
         ]);
     }
 
-    private function getRecipientsCollection($addresses): array
+    private function getRecipientsCollection(array $addresses): array
     {
-        $collection = [];
-        if (!$addresses) {
-            return [];
-        }
-        if (is_string($addresses)) {
-            $addresses = [
-                $addresses => null,
-            ];
-        }
+        return array_map('self::getRecipient', $addresses);
+    }
 
-        foreach ($addresses as $email => $name) {
-            # https://docs.microsoft.com/en-us/graph/api/resources/recipient?view=graph-rest-1.0
-            $collection[] = [
-                'emailAddress' => [
-                    'name' => $name,
-                    'address' => $email,
-                ],
-            ];
-        }
-
-        return $collection;
+    /*
+     * https://docs.microsoft.com/en-us/graph/api/resources/recipient?view=graph-rest-1.0
+     */
+    private function getRecipient($address): array
+    {
+        return [
+            'emailAddress' => array_filter([
+                'address' => $address->getAddress(),
+                'name' => $address->getName(),
+            ])
+        ];
     }
 
     private function getAttachmentsCollection($attachments)
     {
-        $collection = [];
-
-        foreach ($attachments as $attachment) {
-            if (!$attachment instanceof \Swift_Mime_Attachment) {
-                continue;
-            }
-            // https://docs.microsoft.com/en-us/graph/api/resources/fileattachment?view=graph-rest-1.0
-            $collection[] = [
-                'name' => $attachment->getFilename(),
-                'contentId' => $attachment->getId(),
-                'contentType' => $attachment->getContentType(),
-                'contentBytes' => base64_encode($attachment->getBody()),
-                'size' => strlen($attachment->getBody()),
-                '@odata.type' => '#microsoft.graph.fileAttachment',
-                'isInline' => $attachment instanceof \Swift_Mime_EmbeddedFile,
-            ];
-
-        }
-
-        return $collection;
+        return array_map('self::getAttachment', $attachments);
     }
 
-    public function getContentType(\Swift_Mime_SimpleMessage $email): string
+    /*
+     * https://docs.microsoft.com/en-us/graph/api/resources/fileattachment?view=graph-rest-1.0
+     */
+    private function getAttachment(DataPart $attachment)
     {
-        if (Str::contains($email->getBodyContentType(), ['html'])) {
-            return 'HTML';
-        } else {
-            if (Str::contains($email->getBodyContentType(), ['text', 'plain'])) {
-                return 'Text';
-            }
-        }
-        return 'HTML';
+        return array_filter([
+            "@odata.type" => "#microsoft.graph.fileAttachment",
+            "name" => $attachment->getName() ?? $attachment->getFilename(),
+            "contentType" => $attachment->getContentType(),
+            "contentBytes" => base64_encode($attachment->getBody()),
+        ]);
     }
 }

@@ -17,8 +17,8 @@ Add the configuration to your mail.php config file:
     'microsoft-graph' => [
         'transport' => 'graph-api',
         'tenant' => env('GRAPH_API_TENANT'),
-        'client' => env('GRAPH_API_CLIENT_ID'),
-        'secret' => env('GRAPH_API_CLIENT_SECRET')
+        'client_id' => env('GRAPH_API_CLIENT_ID'),
+        'client_secret' => env('GRAPH_API_CLIENT_SECRET')
     ]
 ]
 ```
@@ -31,3 +31,4 @@ Add the configuration to your mail.php config file:
 | 1.x.x       | 5.5.x                     |
 | ^2.0        | 7.x                       |
 | ^2.0.2      | 8.x                       |
+| ^3.0        | 9.x                       |
