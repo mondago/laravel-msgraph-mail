@@ -25,6 +25,10 @@
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^9.0"
     },
+    "scripts": {
+        "lint": "vendor/bin/pint --test",
+        "lint:fix": "vendor/bin/pint" 
+    },
     "extra": {
         "laravel": {
             "providers": [
@@ -41,5 +45,8 @@
         "allow-plugins": {
             "kylekatarnls/update-helper": false
         }
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0"
     }
 }
