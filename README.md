@@ -14,11 +14,14 @@ Add the configuration to your mail.php config file:
 
 ```php
 'mailers' => [
-    'microsoft-graph' => [
+    'graph-api' => [
         'transport' => 'graph-api',
         'tenant' => env('GRAPH_API_TENANT'),
         'client_id' => env('GRAPH_API_CLIENT_ID'),
-        'client_secret' => env('GRAPH_API_CLIENT_SECRET')
+        'client_secret' => env('GRAPH_API_CLIENT_SECRET'),
+
+         // This below is optional. By default we will use the 'from' email address
+        'aad_user_email' => 'myUser@contoso.com'
     ]
 ]
 ```
