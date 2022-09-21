@@ -27,7 +27,10 @@ class Transport extends LaravelTransport
         $this->beforeSendPerformed($message);
         $token = $this->getToken();
         $emailMessage = $this->getMessage($message);
-        $url = sprintf('https://graph.microsoft.com/v1.0/users/%s/sendMail', urlencode($emailMessage['from']['emailAddress']['address']));
+        $url = sprintf(
+            'https://graph.microsoft.com/v1.0/users/%s/sendMail',
+            urlencode(isset($this->config['username']) ? $this->config['username'] : $emailMessage['from']['emailAddress']['address'])
+        );
 
         try {
             $this->http->post($url, [
