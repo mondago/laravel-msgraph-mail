@@ -30,7 +30,7 @@ class Transport extends AbstractTransport
         $email = MessageConverter::toEmail($message->getOriginalMessage());
         $url = sprintf(
             'https://graph.microsoft.com/v1.0/users/%s/sendMail',
-             $this->config['aad_user_email'] ? urlencode($this->config['aad_user_email']) : $email->getFrom()[0]->getEncodedAddress()
+             $this->config['username'] ? urlencode($this->config['username']) : $email->getFrom()[0]->getEncodedAddress()
         );
         $response = Http::withHeaders([
             'Authorization' => sprintf('Bearer %s', $token),

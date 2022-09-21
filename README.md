@@ -21,7 +21,7 @@ Add the configuration to your mail.php config file:
         'client_secret' => env('GRAPH_API_CLIENT_SECRET'),
 
          // This below is optional. By default we will use the 'from' email address
-        'aad_user_email' => 'myUser@contoso.com'
+        'username' => 'myUser@contoso.com'
     ]
 ]
 ```
