@@ -73,8 +73,8 @@ class Transport extends AbstractTransport
             'replyTo' => $this->getRecipientsCollection($email->getReplyTo()),
             'subject' => $email->getSubject(),
             'body' => [
-                'contentType' => $email->getTextBody() ? 'Text' : 'HTML',
-                'content' => $email->getTextBody() ?? $email->getHtmlBody(),
+                'contentType' => $email->getHtmlBody() ? 'HTML' : 'Text',
+                'content' => $email->getHtmlBody() ?? $email->getTextBody(),
             ],
             'attachments' => $this->getAttachmentsCollection($email->getAttachments()),
         ]);
