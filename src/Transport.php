@@ -13,8 +13,6 @@ class Transport extends AbstractTransport
 {
     /**
      * Graph api configuration
-     *
-     * @var array
      */
     private array $config;
 
