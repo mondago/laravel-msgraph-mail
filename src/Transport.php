@@ -21,7 +21,7 @@ class Transport extends AbstractTransport
     public function __construct(array $config)
     {
         parent::__construct(null, null);
-        $this->config = $config['mailers']['graph-api'];
+        $this->config = $config;
     }
 
     protected function doSend(SentMessage $message): void
