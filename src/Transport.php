@@ -13,15 +13,13 @@ class Transport extends AbstractTransport
 {
     /**
      * Graph api configuration
-     *
-     * @var array
      */
     private array $config;
 
     public function __construct(array $config)
     {
         parent::__construct(null, null);
-        $this->config = $config['mailers']['graph-api'];
+        $this->config = $config;
     }
 
     protected function doSend(SentMessage $message): void
