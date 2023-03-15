@@ -35,3 +35,4 @@ Add the configuration to your mail.php config file:
 | ^2.0        | 7.x                       |
 | ^2.0.2      | 8.x                       |
 | ^3.0        | 9.x                       |
+| ^3.1        | 9.x & 10.x                |
